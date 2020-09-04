@@ -1,14 +1,16 @@
 import { Resolver, Query, Ctx, Arg, Mutation } from "type-graphql";
 import { Post } from "../entities/Post";
-import { MyContext } from "src/types";
+import { MyContext } from "../types";
 
 @Resolver()
 export class PostResolver {
+  // GET POSTS
   @Query(() => [Post])
   posts(@Ctx() { em }: MyContext): Promise<Post[]> {
     return em.find(Post, {});
   }
 
+  // GET POST
   @Query(() => Post, { nullable: true })
   post(@Arg("id") id: number, @Ctx() { em }: MyContext): Promise<Post | null> {
     return em.findOne(Post, { id });
